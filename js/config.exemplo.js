@@ -1,0 +1,10 @@
+const CONFIG = {
+    DEMO_MODE: true,
+    SUPABASE_URL: 'SUA_URL_AQUI',
+    SUPABASE_KEY: 'SUA_CHAVE_AQUI',
+    EMAILJS_PUBLIC_KEY: 'CHAVE_AQUI',
+    EMAILJS_SERVICE_ID: 'SERVICE_AQUI',
+    EMAILJS_TEMPLATE_ID: 'TEMPLATE_AQUI',
+    ADMIN_EMAIL: 'admin@movati.gov.br'
+};
+const supabaseClient = supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY);

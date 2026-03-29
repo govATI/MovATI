@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastrar-se · MovATI</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Inter"', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#eff6ff', 100: '#dbeafe', 300: '#93c5fd', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a', 950: '#172554' },
+                        ink: { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a' }
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body class="bg-brand-50 dark:bg-ink-900 text-ink-900 dark:text-ink-50 flex flex-col min-h-screen transition-colors duration-300">
+
+    <header class="bg-brand-900 dark:bg-ink-950 text-white shadow-md transition-colors">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="bg-white/10 p-2 rounded-lg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </div>
+                <div>
+                    <span class="block font-bold text-lg leading-tight">MovATI</span>
+                    <span class="block text-xs text-brand-300">Executivo Federal</span>
+                </div>
+            </a>
+            <nav class="hidden md:flex gap-6 font-medium text-sm">
+                <a href="index.html" class="hover:text-brand-300 transition">Buscar</a>
+                <a href="como-funciona.html" class="hover:text-brand-300 transition">Como Funciona</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleTheme()" class="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition text-brand-100" title="Alternar tema">
+                    <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+                <a href="index.html" class="text-sm font-medium hover:text-brand-300 border border-brand-300/50 px-4 py-2 rounded transition">← Voltar</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex-grow max-w-2xl mx-auto px-6 py-10 w-full">
+        
+        <!-- INDICADOR DE PASSOS -->
+        <div class="flex items-center justify-between mb-10" id="stepIndicator">
+            <div class="step active" id="stepEl1"><span class="step-num">1</span><span>Identidade</span></div>
+            <div class="step-line"></div>
+            <div class="step" id="stepEl2"><span class="step-num">2</span><span>Email</span></div>
+            <div class="step-line"></div>
+            <div class="step" id="stepEl3"><span class="step-num">3</span><span>Validação</span></div>
+            <div class="step-line"></div>
+            <div class="step" id="stepEl4"><span class="step-num">4</span><span>Perfil</span></div>
+        </div>
+
+        <div class="bg-white dark:bg-ink-800 border border-ink-100 dark:border-ink-700 rounded-2xl p-8 shadow-sm">
+            
+            <!-- PASSO 1: NOME CSV -->
+            <div id="step1">
+                <h2 class="font-serif text-3xl text-brand-900 dark:text-white mb-2">Identidade Funcional</h2>
+                <p class="text-ink-600 dark:text-ink-400 mb-8">Consulte sua presença na base do Portal da Transparência.</p>
+                <input type="text" id="nomeCompleto" class="form-input text-lg py-4" placeholder="Nome Completo Exato" />
+                <p id="erroNome" class="error-msg">Servidor não encontrado na base de dados (CSV).</p>
+                <button id="btnValidar" class="w-full bg-brand-500 text-white font-bold py-4 rounded-lg hover:bg-brand-700 transition mt-6 text-lg">Verificar no Governo →</button>
+            </div>
+
+            <!-- PASSO 2: EMAIL -->
+            <div id="step2" class="hidden">
+                <div class="bg-brand-50 dark:bg-brand-900/30 border border-brand-100 dark:border-brand-800 p-5 rounded-xl mb-8 space-y-2">
+                    <p class="text-sm text-brand-900 dark:text-brand-300">✅ <strong>Localizado:</strong> <span id="lblNome" class="font-medium"></span></p>
+                    <p class="text-sm text-brand-900 dark:text-brand-300">📍 <strong>Lotação:</strong> <span id="lblOrgao" class="font-medium"></span></p>
+                </div>
+                <h2 class="font-serif text-3xl text-brand-900 dark:text-white mb-2">E-mail Institucional</h2>
+                <p class="text-ink-600 dark:text-ink-400 mb-6">Enviaremos um código de 6 dígitos para garantir que é você.</p>
+                <input type="email" id="emailGov" class="form-input text-lg py-4" placeholder="nome@orgao.gov.br" />
+                <p id="erroEmail" class="error-msg">Use um e-mail válido com terminação oficial (ex: .gov.br).</p>
+                <button id="btnEnviarCodigo" class="w-full bg-brand-500 text-white font-bold py-4 rounded-lg hover:bg-brand-700 transition mt-6 text-lg">Receber Código →</button>
+            </div>
+
+            <!-- PASSO 3: VALIDAR CÓDIGO -->
+            <div id="step3" class="hidden">
+                <h2 class="font-serif text-3xl text-brand-900 dark:text-white mb-2">Verifique sua caixa de entrada</h2>
+                <p class="text-ink-600 dark:text-ink-400 mb-8 text-sm">Código enviado para <strong id="emailMostrado" class="text-ink-900 dark:text-white"></strong></p>
+                
+                <div class="flex justify-center gap-2 mb-6" id="codeInputs">
+                    <input class="code-digit" maxlength="1" type="text" inputmode="numeric" />
+                    <input class="code-digit" maxlength="1" type="text" inputmode="numeric" />
+                    <input class="code-digit" maxlength="1" type="text" inputmode="numeric" />
+                    <input class="code-digit" maxlength="1" type="text" inputmode="numeric" />
+                    <input class="code-digit" maxlength="1" type="text" inputmode="numeric" />
+                    <input class="code-digit" maxlength="1" type="text" inputmode="numeric" />
+                </div>
+                <p id="erroCodigo" class="error-msg text-center mb-4">Código inválido. Tente novamente.</p>
+                <button id="btnVerificarCodigo" class="w-full bg-brand-500 text-white font-bold py-4 rounded-lg hover:bg-brand-700 transition text-lg">Confirmar E-mail</button>
+            </div>
+
+            <!-- PASSO 4: PERFIL -->
+            <div id="step4" class="hidden">
+                <h2 class="font-serif text-3xl text-brand-900 dark:text-white mb-6">Sua Movimentação</h2>
+                
+                <div class="space-y-5">
+                    <div>
+                        <label class="form-label">Área principal do SISP <span class="text-red-500">*</span></label>
+                        <select id="areaAtuacao" class="form-select">
+                            <option value="">Selecione...</option>
+                            <option value="Gestão e Planejamento de TIC">Gestão e Planejamento de TIC</option>
+                            <option value="Sistemas e Serviços Públicos Digitais">Sistemas e Serviços Públicos Digitais</option>
+                            <option value="Contratações de TIC">Contratações de TIC</option>
+                            <option value="Infraestrutura e Plataformas Digitais">Infraestrutura e Plataformas Digitais</option>
+                            <option value="Privacidade e Segurança da Informação">Privacidade e Segurança da Informação</option>
+                            <option value="Dados e informações">Dados e informações</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Órgão de Destino</label>
+                        <input type="text" id="orgaoPara" class="form-input" placeholder="Ex: MGI, ENAP ou Aberto a propostas" />
+                    </div>
+                    <div>
+                        <label class="form-label">Habilidades <span class="form-hint inline">Máx. 10, separadas por vírgula</span></label>
+                        <input type="text" id="habilidades" class="form-input" placeholder="Ex: Python, Contratos, AWS" />
+                    </div>
+                </div>
+                <button id="btnSalvar" class="w-full bg-brand-500 text-white font-bold py-4 rounded-lg hover:bg-brand-700 transition mt-10 text-lg">Publicar Meu Perfil</button>
+                <button id="btnRemover" class="w-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 font-bold py-4 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition mt-4 text-lg hidden">Remover Meu Perfil da Vitrine</button>
+            </div>
+
+            <!-- PASSO 5: SUCESSO -->
+            <div id="step5" class="hidden text-center py-12">
+                <div class="w-20 h-20 bg-brand-100 dark:bg-brand-900/50 text-brand-700 dark:text-brand-300 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h2 class="font-serif text-3xl text-brand-900 dark:text-white mb-4">Perfil Salvo!</h2>
+                <p class="text-ink-600 dark:text-ink-400 mb-10">Sua configuração já está ativa na plataforma.</p>
+                <a href="index.html" class="inline-block bg-brand-500 text-white font-bold py-3 px-10 rounded-lg hover:bg-brand-700 transition">Ver Vitrine</a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-ink-900 border-t border-ink-100 dark:border-ink-800 mt-auto transition-colors">
+        <div class="max-w-6xl mx-auto px-6 py-6 flex justify-between items-center text-sm text-ink-600 dark:text-ink-400">
+            <div><span class="font-bold text-ink-900 dark:text-white">MovATI</span>. Projeto independente.</div>
+            <a href="privacidade.html" class="hover:text-brand-700 dark:hover:text-brand-400">Privacidade</a>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/cadastro.js"></script>
+</body>
+</html>

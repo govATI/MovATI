@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacidade · MovATI</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Inter"', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#eff6ff', 100: '#dbeafe', 300: '#93c5fd', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a', 950: '#172554' },
+                        ink: { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a' }
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-brand-50 dark:bg-ink-900 text-ink-900 dark:text-ink-50 font-sans antialiased flex flex-col min-h-screen transition-colors duration-300">
+
+    <header class="bg-brand-900 dark:bg-ink-950 text-white shadow-md transition-colors">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="bg-white/10 p-2 rounded-lg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </div>
+                <div>
+                    <span class="block font-bold text-lg leading-tight">MovATI</span>
+                    <span class="block text-xs text-brand-300">Executivo Federal</span>
+                </div>
+            </a>
+            <nav class="hidden md:flex gap-6 font-medium text-sm">
+                <a href="index.html" class="hover:text-brand-300 transition">Buscar Talentos</a>
+                <a href="como-funciona.html" class="hover:text-brand-300 transition">Como Funciona</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleTheme()" class="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition text-brand-100" title="Alternar tema">
+                    <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+                <a href="index.html" class="text-sm font-medium hover:text-brand-300 border border-brand-300/50 px-4 py-2 rounded transition">← Voltar</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-3xl mx-auto px-6 py-16 w-full">
+        <h1 class="font-serif text-4xl text-brand-900 dark:text-white mb-2">Política de Privacidade</h1>
+        <p class="text-ink-400 dark:text-ink-500 text-sm mb-10">Última atualização: Março de 2026</p>
+
+        <div class="bg-white dark:bg-ink-800 border border-ink-100 dark:border-ink-700 rounded-2xl p-8 space-y-8 shadow-sm">
+            
+            <section>
+                <h2 class="font-bold text-xl text-ink-900 dark:text-white mb-3 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    Dados Governamentais Abertos
+                </h2>
+                <p class="text-ink-600 dark:text-ink-400 leading-relaxed text-sm">
+                    A validação primária dos usuários (Nome e Cargo) é feita através do cruzamento com a base de servidores do <a href="https://portaldatransparencia.gov.br" target="_blank" class="text-brand-700 dark:text-brand-400 underline">Portal da Transparência do Governo Federal</a>. <strong>Nenhum CPF é solicitado, validado ou armazenado na nossa plataforma.</strong>
+                </p>
+            </section>
+
+            <section>
+                <h2 class="font-bold text-xl text-ink-900 dark:text-white mb-3">Dados Cadastrados por Você</h2>
+                <p class="text-ink-600 dark:text-ink-400 leading-relaxed text-sm">
+                    As tags de habilidades (ex: linguagens de programação, metodologias), áreas de interesse, órgão de destino desejado e o e-mail de contato são inseridos voluntariamente. Estes dados formam seu "Perfil Público" na plataforma.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="font-bold text-xl text-ink-900 dark:text-white mb-3">Comunicação Segura</h2>
+                <p class="text-ink-600 dark:text-ink-400 leading-relaxed text-sm">
+                    Seu e-mail cadastrado (preferencialmente institucional <code class="bg-ink-100 dark:bg-ink-700 px-1 rounded text-xs">gov.br</code>) não fica exposto abertamente em formato de texto para evitar raspagem de dados (spam). O contato inicial ocorre através do botão seguro em seu card de perfil, enviando uma notificação estruturada.
+                </p>
+            </section>
+
+            <section>
+                <h2 class="font-bold text-xl text-ink-900 dark:text-white mb-3">Sua Autonomia (LGPD)</h2>
+                <p class="text-ink-600 dark:text-ink-400 leading-relaxed text-sm">
+                    Em conformidade com a LGPD, você possui controle total sobre suas informações enriquecidas. Caso seja movimentado e deseje não constar mais no banco de talentos, você pode ocultar ou deletar seu perfil com um único clique.
+                </p>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="bg-white dark:bg-ink-900 border-t border-ink-100 dark:border-ink-800 mt-auto transition-colors">
+        <div class="max-w-6xl mx-auto px-6 py-6 flex justify-between items-center text-sm text-ink-600 dark:text-ink-400">
+            <div><span class="font-bold text-ink-900 dark:text-white">MovATI</span>. Projeto independente.</div>
+            <div class="flex gap-6">
+                <a href="index.html" class="hover:text-brand-600 dark:hover:text-brand-400 font-medium">Buscar perfis</a>
+                <a href="como-funciona.html" class="hover:text-brand-600 dark:hover:text-brand-400 font-medium">Como funciona</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

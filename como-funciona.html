@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Como funciona · MovATI</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Inter"', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#eff6ff', 100: '#dbeafe', 300: '#93c5fd', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a', 950: '#172554' },
+                        ink: { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a' }
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-brand-50 dark:bg-ink-900 text-ink-900 dark:text-ink-50 font-sans antialiased flex flex-col min-h-screen transition-colors duration-300">
+
+    <!-- Header -->
+    <header class="bg-brand-900 dark:bg-ink-950 text-white shadow-md transition-colors">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="bg-white/10 p-2 rounded-lg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </div>
+                <div>
+                    <span class="block font-bold text-lg leading-tight">MovATI</span>
+                    <span class="block text-xs text-brand-300">Executivo Federal</span>
+                </div>
+            </a>
+            <nav class="hidden md:flex gap-6 font-medium text-sm">
+                <a href="index.html" class="hover:text-brand-300 transition">Buscar Talentos</a>
+                <a href="como-funciona.html" class="text-brand-300 border-b-2 border-brand-300 pb-1">Como Funciona</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleTheme()" class="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition text-brand-100" title="Alternar tema">
+                    <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+                <a href="cadastro.html" class="bg-brand-300 text-brand-950 px-5 py-2.5 rounded-md font-semibold text-sm hover:bg-white transition shadow-sm">Sou ATI - Cadastrar</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <div class="bg-white dark:bg-ink-800 border-b border-ink-100 dark:border-ink-700 transition-colors">
+        <div class="max-w-3xl mx-auto px-6 py-16 text-center">
+            <span class="text-brand-700 dark:text-brand-400 font-bold tracking-wider text-sm uppercase mb-3 block">Simples, Seguro e Focado no SISP</span>
+            <h1 class="font-serif text-4xl md:text-5xl mb-6 text-brand-950 dark:text-white">Apoio à governança de talentos</h1>
+            <p class="text-lg text-ink-600 dark:text-ink-300 leading-relaxed">
+                A carreira de ATI é transversal. O MovATI facilita o mapeamento de habilidades e o encontro de perfis para apoiar a movimentação estratégica entre os órgãos do Governo Federal.
+            </p>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-6 py-16 space-y-12">
+        <!-- Passos -->
+        <div class="flex gap-6">
+            <div class="flex-shrink-0 w-12 h-12 bg-brand-100 dark:bg-brand-900/50 text-brand-700 dark:text-brand-300 rounded-full flex items-center justify-center font-bold text-xl">1</div>
+            <div>
+                <h3 class="font-serif text-2xl text-ink-900 dark:text-white mb-2">Verificação</h3>
+                <p class="text-ink-600 dark:text-ink-400 leading-relaxed mb-4">Seu nome e e-mail são validados. Isso reforça que apenas ATIs reais façam parte da plataforma.</p>
+            </div>
+        </div>
+        
+        <div class="flex gap-6">
+            <div class="flex-shrink-0 w-12 h-12 bg-brand-100 dark:bg-brand-900/50 text-brand-700 dark:text-brand-300 rounded-full flex items-center justify-center font-bold text-xl">2</div>
+            <div>
+                <h3 class="font-serif text-2xl text-ink-900 dark:text-white mb-2">Enriquecimento de Perfil</h3>
+                <p class="text-ink-600 dark:text-ink-400 leading-relaxed mb-4">Escolha sua principal área de atuação no SISP (Dados, Infraestrutura, Sistemas, Governança, Contratação ou Segurança) e adicione tags livres de habilidades (Ex: <em>AWS, Governança de TI, Scrum, Python</em>). Se alguém já cadastrou uma tag, ela aparecerá como sugestão.</p>
+            </div>
+        </div>
+
+        <div class="flex gap-6">
+            <div class="flex-shrink-0 w-12 h-12 bg-brand-100 dark:bg-brand-900/50 text-brand-700 dark:text-brand-300 rounded-full flex items-center justify-center font-bold text-xl">3</div>
+            <div>
+                <h3 class="font-serif text-2xl text-ink-900 dark:text-white mb-2">Conexão e Movimentação</h3>
+                <p class="text-ink-600 dark:text-ink-400 leading-relaxed mb-4">Ao encontrar um ATI com o perfil desejado, gestores ou outros analistas podem iniciar um contato via e-mail. A efetivação da movimentação ocorre via processos oficiais da <a href="https://www.gov.br/governodigital/pt-br" target="_blank" class="text-brand-700 dark:text-brand-400 underline font-medium">Secretaria de Governo Digital (SGD/MGI)</a>.</p>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="mt-20 pt-16 border-t border-ink-100 dark:border-ink-700">
+            <h2 class="font-serif text-3xl text-center mb-10 text-brand-900 dark:text-white">Perguntas Frequentes</h2>
+            <div class="space-y-4">
+                <details class="bg-white dark:bg-ink-800 p-5 rounded-lg shadow-sm border border-ink-100 dark:border-ink-700 group">
+                    <summary class="font-bold cursor-pointer text-ink-900 dark:text-white list-none flex justify-between items-center">
+                        O MovATI é oficial do MGI/SGD?
+                        <span class="text-brand-500 group-open:rotate-45 transition-transform text-xl leading-none">+</span>
+                    </summary>
+                    <p class="text-ink-600 dark:text-ink-400 mt-4 text-sm leading-relaxed">Não. É um projeto independente criado por e para servidores. O banco de dados para validação é público e obtido via Portal da Transparência. A plataforma não substitui o trâmite legal de alteração de exercício.</p>
+                </details>
+                <details class="bg-white dark:bg-ink-800 p-5 rounded-lg shadow-sm border border-ink-100 dark:border-ink-700 group">
+                    <summary class="font-bold cursor-pointer text-ink-900 dark:text-white list-none flex justify-between items-center">
+                        A movimentação de um ATI é livre?
+                        <span class="text-brand-500 group-open:rotate-45 transition-transform text-xl leading-none">+</span>
+                    </summary>
+                    <p class="text-ink-600 dark:text-ink-400 mt-4 text-sm leading-relaxed">Por ser uma carreira transversal, o ATI tem grande mobilidade, mas a alocação depende de anuência do órgão central do SISP (SGD/MGI) e das vagas/necessidades dos órgãos requisitantes. O site só facilita contatos para acordos prévios.</p>
+                </details>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white dark:bg-ink-900 border-t border-ink-100 dark:border-ink-800 mt-auto transition-colors">
+        <div class="max-w-6xl mx-auto px-6 py-6 flex justify-between items-center text-sm text-ink-600 dark:text-ink-400">
+            <div><span class="font-bold text-ink-900 dark:text-white">MovATI</span>. Projeto independente.</div>
+            <a href="privacidade.html" class="hover:text-brand-700 dark:hover:text-brand-400">Privacidade</a>
+        </div>
+    </footer>
+</body>
+</html>
