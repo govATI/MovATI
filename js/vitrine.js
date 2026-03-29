@@ -132,6 +132,12 @@ function enviarMensagem() {
         return;
     }
 
+    const recaptchaToken = document.querySelector('#modalContato .g-recaptcha-response').value;
+    if (!recaptchaToken) {
+        alert("Por favor, marque a caixa 'Não sou um robô'.");
+        return;
+    }
+
     btn.innerText = "Enviando...";
     btn.disabled = true;
 
@@ -142,7 +148,8 @@ function enviarMensagem() {
         from_name: `${nomeRemetente} via MovATI`,
         reply_to: emailRemetente,
         subject: `Novo interesse no seu perfil MovATI - de ${nomeRemetente}`,
-        message: textoFormatado
+        message: textoFormatado,
+        'g-recaptcha-response': recaptchaToken
     };
 
     emailjs.send(CONFIG.EMAILJS_SERVICE_ID, CONFIG.EMAILJS_TEMPLATE_MENSAGEM, templateParams)
@@ -173,6 +180,12 @@ function enviarDenuncia() {
         return;
     }
 
+    const recaptchaToken = document.querySelector('#modalDenuncia .g-recaptcha-response').value;
+    if (!recaptchaToken) {
+        alert("Por favor, marque a caixa 'Não sou um robô'.");
+        return;
+    }
+
     btn.innerText = "Enviando...";
     btn.disabled = true;
 
@@ -183,7 +196,8 @@ function enviarDenuncia() {
         from_name: 'Alerta do Sistema MovATI',
         reply_to: emailRemetente,
         subject: '⚠️ ALERTA MOVATI: Denúncia de Perfil',
-        message: textoFormatado
+        message: textoFormatado,
+        'g-recaptcha-response': recaptchaToken
     };
 
     emailjs.send(CONFIG.EMAILJS_SERVICE_ID, CONFIG.EMAILJS_TEMPLATE_MENSAGEM, templateParams)

@@ -94,6 +94,12 @@ function enviarCodigoVerificacao() {
     const email = document.getElementById('emailGov').value;
     const erroEmail = document.getElementById('erroEmail');
     erroEmail.classList.remove('show');
+
+    const recaptchaToken = document.querySelector('.g-recaptcha-response').value;
+    if (!recaptchaToken) {
+        alert("Por favor, marque a caixa 'Não sou um robô'.");
+        return;
+    }
     
     if (!isEmailGovernamental(email)) {
         erroEmail.classList.add('show');
@@ -119,7 +125,8 @@ function enviarCodigoVerificacao() {
     emailjs.send(CONFIG.EMAILJS_SERVICE_ID, CONFIG.EMAILJS_TEMPLATE_VERIFICACAO, {
         to_email: email,
         codigo: codigoGerado,
-        to_name: dadosServidor.nome
+        to_name: dadosServidor.nome,
+        'g-recaptcha-response': recaptchaToken
     }).then(() => {
         document.getElementById('emailMostrado').innerText = email;
         irParaStep(3);
