@@ -35,6 +35,7 @@ jobs:
 
       - name: Baixar ZIP e rodar o ETL
         run: |
+          mkdir -p data
           mesanterior=$(date -d "$(date +%Y-%m-2) -1 month" +%Y%m)
           wget -q https://dadosabertos-download.cgu.gov.br/PortalDaTransparencia/saida/servidores/$(echo $mesanterior)_Servidores_SIAPE.zip -O data/$(echo $mesanterior)_Servidores_SIAPE.zip
           python etl_atis.py
