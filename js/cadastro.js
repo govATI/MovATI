@@ -3,7 +3,7 @@
 let dadosServidor = {};
 let codigoGerado = '';
 
-const dominiosExtras =['gmail.com', 'ipea.gov.br', 'ibge.gov.br', 'ebserh.gov.br', 'bcb.gov.br'];
+const dominiosExtras =['ipea.gov.br', 'ibge.gov.br', 'ebserh.gov.br', 'bcb.gov.br'];
 
 document.addEventListener('DOMContentLoaded', () => {
     emailjs.init(CONFIG.EMAILJS_PUBLIC_KEY);

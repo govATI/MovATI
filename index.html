@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Em breve · MovATI</title>
+    <title>MovATI · Mobilidade e Talentos</title>
+    <link rel="stylesheet" href="css/main.css" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -21,7 +22,6 @@
         }
     </script>
     <script>
-        // Lógica para manter o tema (Claro/Escuro)
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark')
         } else {
@@ -32,73 +32,134 @@
             localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
+<body class="bg-ink-50 dark:bg-ink-900 text-ink-900 dark:text-ink-50 flex flex-col min-h-screen transition-colors duration-300">
 
-<body
-    class="bg-brand-50 dark:bg-ink-900 text-ink-900 dark:text-ink-50 flex flex-col min-h-screen transition-colors duration-300 font-sans">
-
-    <!-- Header Simples com Botão de Tema -->
-    <header class="w-full px-6 py-4 flex justify-between items-center max-w-6xl mx-auto">
-        <div class="flex items-center gap-3">
-            <div class="bg-brand-600 text-white p-2 rounded-lg">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
-            </div>
-            <div>
-                <span class="block font-bold text-lg leading-tight text-brand-950 dark:text-white">MovATI</span>
-                <span class="block text-xs text-brand-600 dark:text-brand-400 font-medium">Executivo Federal</span>
+    <!-- Header -->
+    <header class="bg-brand-900 dark:bg-ink-950 text-white shadow-md transition-colors">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="bg-white/10 p-2 rounded-lg text-brand-300">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </div>
+                <div>
+                    <span class="block font-bold text-lg leading-tight">MovATI</span>
+                    <span class="block text-xs text-brand-300">Executivo Federal</span>
+                </div>
+            </a>
+            <nav class="hidden md:flex gap-6 font-medium text-sm">
+                <a href="index.html" class="text-brand-300 border-b-2 border-brand-300 pb-1">Buscar Talentos</a>
+                <a href="como-funciona.html" class="hover:text-brand-300 transition">Como Funciona</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleTheme()" class="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition text-brand-100" title="Alternar tema">
+                    <!-- Ícone Sol (modo claro) -->
+                    <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <!-- Ícone Lua (modo escuro) -->
+                    <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+                <a href="cadastro.html" class="bg-brand-600 text-white px-5 py-2.5 rounded-md font-bold text-sm hover:bg-brand-500 transition shadow-sm border border-brand-500">Sou ATI - Cadastrar</a>
             </div>
         </div>
-
-        <button onclick="toggleTheme()"
-            class="p-2 rounded-lg bg-ink-200 dark:bg-ink-800 hover:bg-ink-300 dark:hover:bg-ink-700 transition text-ink-600 dark:text-ink-300"
-            title="Alternar tema">
-            <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
-                </path>
-            </svg>
-            <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-            </svg>
-        </button>
     </header>
 
-    <!-- Conteúdo Central -->
-    <main class="flex-grow flex flex-col items-center justify-center px-6 text-center max-w-3xl mx-auto">
-
-        <!-- Animação / Ícone de Foguete ou Relógio -->
-        <div
-            class="w-24 h-24 bg-brand-100 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400 rounded-full flex items-center justify-center mb-8 shadow-inner animate-pulse">
-            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-            </svg>
+    <!-- Hero & Filtros -->
+    <section class="bg-brand-700 dark:bg-ink-950 text-white pt-16 pb-24 shadow-md transition-colors">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <div class="inline-flex items-center gap-2 bg-brand-800 dark:bg-ink-800 text-brand-100 px-4 py-1.5 rounded-full text-xs font-semibold mb-6">
+                <span class="w-2 h-2 rounded-full bg-brand-400"></span> Analistas em Tecnologia da Informação
+            </div>
+            <h1 class="font-extrabold text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight tracking-tight">Movimente-se no Executivo ou encontre o talento ideal</h1>
+            <p class="text-lg md:text-xl text-brand-200 dark:text-ink-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+                Plataforma de conexão e banco de talentos exclusivo para Analistas em Tecnologia da Informação do SISP.
+            </p>
+            
+            <!-- Barra de Busca -->
+            <div class="bg-white dark:bg-ink-800 p-2 rounded-lg shadow-xl flex flex-col md:flex-row gap-2 max-w-4xl mx-auto text-left border dark:border-ink-700">
+                <select id="filtroArea" class="form-select border-none shadow-none w-full md:w-5/12 bg-transparent dark:text-white">
+                    <option value="">Todas as Áreas do SISP</option>
+                    <option value="Gestão e Planejamento de TIC">Gestão e Planejamento de TIC</option>
+                    <option value="Sistemas e Serviços Públicos Digitais">Sistemas e Serviços Públicos Digitais</option>
+                    <option value="Contratações de TIC">Contratações de TIC</option>
+                    <option value="Infraestrutura e Plataformas Digitais">Infraestrutura e Plataformas Digitais</option>
+                    <option value="Privacidade e Segurança da Informação">Privacidade e Segurança da Informação</option>
+                    <option value="Dados e informações">Dados e informações</option>
+                </select>
+                <input type="text" id="filtroHab" placeholder="Habilidade (ex: Python, AWS)" class="form-input border-none shadow-none w-full md:w-5/12 bg-transparent dark:text-white dark:placeholder-ink-400" />
+                <button id="btnBuscar" class="bg-brand-600 text-white font-bold px-6 py-3 rounded-md hover:bg-brand-700 transition w-full md:w-2/12">Buscar</button>
+            </div>
         </div>
+    </section>
 
-        <span class="text-brand-600 dark:text-brand-400 font-bold tracking-wider text-sm uppercase mb-3 block">Em
-            desenvolvimento</span>
-
-        <h1 class="font-extrabold text-4xl md:text-5xl lg:text-6xl mb-6 text-brand-950 dark:text-white tracking-tight">
-            A nova plataforma de mobilidade ATI está chegando.
-        </h1>
-
-        <p class="text-lg text-ink-600 dark:text-ink-400 leading-relaxed mb-10 max-w-2xl">
-            Estamos ajustando a infraestrutura e os bancos de dados para colocar o <strong>MovATI</strong> no ar. Em
-            breve você terá um espaço exclusivo, simples e seguro para conectar ATIs no Executivo Federal.
-        </p>
-
+    <!-- Vitrine de Talentos -->
+    <main class="flex-grow max-w-6xl mx-auto px-6 py-16 w-full -mt-10">
+        <div id="grid-perfis" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <p id="loading" class="text-ink-600 dark:text-ink-400 col-span-full text-center py-10 font-medium">Carregando banco de talentos...</p>
+        </div>
     </main>
 
+    <!-- Modal de Contato -->
+    <div id="modalContato" class="fixed inset-0 bg-ink-900/80 hidden flex items-center justify-center p-4 z-50 backdrop-blur-sm">
+        <div class="bg-white dark:bg-ink-800 rounded-xl p-6 max-w-md w-full shadow-2xl border dark:border-ink-700">
+            <h3 class="font-extrabold text-2xl text-brand-900 dark:text-white mb-2">Demonstrar Interesse</h3>
+            <p class="text-sm text-ink-600 dark:text-ink-300 mb-6">Uma mensagem será enviada com segurança para <strong id="modalNomeDestino" class="text-ink-900 dark:text-brand-300"></strong>.</p>
+            
+            <input type="hidden" id="modalEmailDestino" />
+
+            <div class="space-y-4">
+                <input type="text" id="remetenteNome" class="form-input" placeholder="Seu Nome Completo" />
+                <input type="email" id="remetenteEmail" class="form-input" placeholder="Seu E-mail Institucional (@gov.br)" />
+                <textarea id="remetenteMsg" class="form-textarea h-28" placeholder="Olá, vi seu perfil e temos uma oportunidade..."></textarea>
+                <br />
+                <div class="g-recaptcha mb-4 flex justify-center" data-sitekey="6LeRZp0sAAAAAMbXEET9ZoTc3vKfjbFKnKwGO-Ir"></div>
+            </div>
+            
+            <div class="flex justify-end gap-3 mt-6">
+                <button id="btnFecharModal" class="px-5 py-2.5 bg-ink-100 dark:bg-ink-700 text-ink-700 dark:text-ink-200 font-bold rounded-lg hover:bg-ink-200 dark:hover:bg-ink-600 transition">Cancelar</button>
+                <button id="btnEnviarMsg" class="px-5 py-2.5 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition">Enviar E-mail</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Denúncia -->
+    <div id="modalDenuncia" class="fixed inset-0 bg-ink-900/80 hidden flex items-center justify-center p-4 z-50 backdrop-blur-sm">
+        <div class="bg-white dark:bg-ink-800 rounded-xl p-6 max-w-md w-full shadow-2xl border dark:border-ink-700">
+            <h3 class="font-extrabold text-2xl text-red-600 dark:text-red-400 mb-2">Reportar Problema</h3>
+            <p class="text-sm text-ink-600 dark:text-ink-300 mb-6">Avisar a administração sobre o perfil de <strong id="modalNomeDenuncia" class="text-ink-900 dark:text-white"></strong>.</p>
+            
+            <input type="hidden" id="modalEmailDenuncia" />
+
+            <div class="space-y-4">
+                <input type="email" id="denuncianteEmail" class="form-input" placeholder="Seu E-mail (Opcional)" />
+                <textarea id="denuncianteMsg" class="form-textarea h-28" placeholder="Qual o problema? (Ex: Informação falsa, erro na lotação, etc.)"></textarea>
+                <br />
+                <div class="g-recaptcha mb-4 flex justify-center" data-sitekey="6LeRZp0sAAAAAMbXEET9ZoTc3vKfjbFKnKwGO-Ir"></div> 
+            </div>
+            
+            <div class="flex justify-end gap-3 mt-6">
+                <button id="btnFecharModalDenuncia" class="px-5 py-2.5 bg-ink-100 dark:bg-ink-700 text-ink-700 dark:text-ink-200 font-bold rounded-lg hover:bg-ink-200 dark:hover:bg-ink-600 transition">Cancelar</button>
+                <button id="btnEnviarDenuncia" class="px-5 py-2.5 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition">Enviar Alerta</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
-    <footer class="w-full text-center py-6 text-sm text-ink-500 dark:text-ink-400 mt-auto">
-        <p><span class="font-bold text-ink-900 dark:text-ink-300">MovATI</span>. Projeto independente.</p>
+    <footer class="bg-white dark:bg-ink-900 border-t border-ink-200 dark:border-ink-800 mt-auto transition-colors">
+        <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-ink-600 dark:text-ink-400">
+            <div>
+                <span class="font-bold text-ink-900 dark:text-white text-base">MovATI</span>
+                <span class="block text-xs mt-1">Projeto independente</span>
+            </div>
+            <div class="flex gap-6">
+                <a href="como-funciona.html" class="hover:text-brand-600 dark:hover:text-brand-400 font-medium">Como funciona</a>
+                <a href="privacidade.html" class="hover:text-brand-600 dark:hover:text-brand-400 font-medium">Privacidade</a>
+            </div>
+        </div>
     </footer>
 
+    <script src="js/config.js"></script>
+    <script src="js/vitrine.js"></script>
 </body>
-
 </html>

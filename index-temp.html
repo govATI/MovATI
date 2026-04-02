@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Em breve · MovATI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Inter"', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#eff6ff', 100: '#dbeafe', 300: '#93c5fd', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a', 950: '#172554' },
+                        ink: { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a' }
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        // Lógica para manter o tema (Claro/Escuro)
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body
+    class="bg-brand-50 dark:bg-ink-900 text-ink-900 dark:text-ink-50 flex flex-col min-h-screen transition-colors duration-300 font-sans">
+
+    <!-- Header Simples com Botão de Tema -->
+    <header class="w-full px-6 py-4 flex justify-between items-center max-w-6xl mx-auto">
+        <div class="flex items-center gap-3">
+            <div class="bg-brand-600 text-white p-2 rounded-lg">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+            </div>
+            <div>
+                <span class="block font-bold text-lg leading-tight text-brand-950 dark:text-white">MovATI</span>
+                <span class="block text-xs text-brand-600 dark:text-brand-400 font-medium">Executivo Federal</span>
+            </div>
+        </div>
+
+        <button onclick="toggleTheme()"
+            class="p-2 rounded-lg bg-ink-200 dark:bg-ink-800 hover:bg-ink-300 dark:hover:bg-ink-700 transition text-ink-600 dark:text-ink-300"
+            title="Alternar tema">
+            <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                </path>
+            </svg>
+            <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+        </button>
+    </header>
+
+    <!-- Conteúdo Central -->
+    <main class="flex-grow flex flex-col items-center justify-center px-6 text-center max-w-3xl mx-auto">
+
+        <!-- Animação / Ícone de Foguete ou Relógio -->
+        <div
+            class="w-24 h-24 bg-brand-100 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400 rounded-full flex items-center justify-center mb-8 shadow-inner animate-pulse">
+            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+        </div>
+
+        <span class="text-brand-600 dark:text-brand-400 font-bold tracking-wider text-sm uppercase mb-3 block">Em
+            desenvolvimento</span>
+
+        <h1 class="font-extrabold text-4xl md:text-5xl lg:text-6xl mb-6 text-brand-950 dark:text-white tracking-tight">
+            A nova plataforma de mobilidade ATI está chegando.
+        </h1>
+
+        <p class="text-lg text-ink-600 dark:text-ink-400 leading-relaxed mb-10 max-w-2xl">
+            Estamos ajustando a infraestrutura e os bancos de dados para colocar o <strong>MovATI</strong> no ar. Em
+            breve você terá um espaço exclusivo, simples e seguro para conectar ATIs no Executivo Federal.
+        </p>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 text-sm text-ink-500 dark:text-ink-400 mt-auto">
+        <p><span class="font-bold text-ink-900 dark:text-ink-300">MovATI</span>. Projeto independente.</p>
+    </footer>
+
+</body>
+
+</html>
